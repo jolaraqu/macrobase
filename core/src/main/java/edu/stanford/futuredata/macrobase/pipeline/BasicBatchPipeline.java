@@ -42,10 +42,11 @@ public class BasicBatchPipeline implements Pipeline {
     private double minSupport;
     private double minRiskRatio;
     private double meanShiftRatio;
-
+    private Map<String, Object> jsonBody;
 
     public BasicBatchPipeline (PipelineConfig conf) throws MacroBaseException {
         inputURI = conf.get("inputURI");
+        jsonBody = conf.get("jsonBody", null);
 
         classifierType = conf.get("classifier", "percentile");
         metric = conf.get("metric");
@@ -146,10 +147,9 @@ public class BasicBatchPipeline implements Pipeline {
         if (meanColumn.isPresent()) {
             colTypes.put(meanColumn.get(), Schema.ColType.DOUBLE);
             requiredColumns.add(meanColumn.get());
-
         }
         requiredColumns.add(metric);
-        return PipelineUtils.loadDataFrame(inputURI, colTypes, requiredColumns);
+        return PipelineUtils.loadDataFrame(inputURI, colTypes, null, jsonBody, false, requiredColumns);
     }
 
     @Override
