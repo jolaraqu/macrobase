@@ -15,7 +15,7 @@ public class RestServer {
     private static Logger log = LoggerFactory.getLogger(RestServer.class);
 
     public static void main(String[] args) {
-        post("/query", RestServer::processBasicBatchQuery, RestServer::toJsonString);
+        post("/queryv2", RestServer::processBasicBatchQuery, RestServer::toJsonString);
 
         exception(Exception.class, (exception, request, response) -> {
             log.error("An exception occurred: ", exception);
